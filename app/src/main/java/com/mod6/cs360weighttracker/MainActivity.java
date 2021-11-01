@@ -14,6 +14,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     boolean isValid = false;
     private int counter = 5;
 
-    UsernameDBHelper DB;
+    UsernameDBHelperTest DB;
 
     SharedPreferences sharedPreferences;
 
@@ -60,8 +62,9 @@ public class MainActivity extends AppCompatActivity {
         ePassword = findViewById(R.id.ePassword);
         eAttempts = findViewById(R.id.eAttempts);
         eRegister = findViewById(R.id.eNewuser);
+
         /*Initialize DB*/
-        DB = new UsernameDBHelper(this);
+        DB = new UsernameDBHelperTest(this);
 
         /*Listener for SMS Switch*/
         smsSwitch = (Switch) findViewById(R.id.smsSwitch);
@@ -162,22 +165,10 @@ public class MainActivity extends AppCompatActivity {
 
     /*Verify Login Credentials*/
     private boolean validate(String name, String password){
-
-        /*try {
-
-            while (r.next())
+        Boolean checkUser = DB.checkusernamepassword(name, password);
+        if (checkUser)
             return true;
-        }catch (Exception e){
-            Toast.makeText(this, "Invalid Information", Toast.LENGTH_SHORT).show();
+        else
             return false;
-        }*/
-
-        if(credentials != null){
-            if(name.equalsIgnoreCase(RegistrationActivity.credentials.getUsername()) && password.equals(RegistrationActivity.credentials.getPassword())){
-                return true;
-            }
-        }
-
-        return false;
     }
 }

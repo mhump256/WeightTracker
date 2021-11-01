@@ -1,7 +1,5 @@
 package com.mod6.cs360weighttracker;
 
-import org.w3c.dom.Text;
-
 public class weightHistoryView {
 
     private int mImageResource;

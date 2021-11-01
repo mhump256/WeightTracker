@@ -57,7 +57,7 @@
         android:id="@+id/eAttempts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Attempts remaining 3"
+        android:text="Attempts remaining 5"
         app:layout_constraintBottom_toTopOf="@+id/smsSwitch"
         app:layout_constraintEnd_toEndOf="@+id/smsSwitch"
         app:layout_constraintStart_toStartOf="@+id/smsSwitch"

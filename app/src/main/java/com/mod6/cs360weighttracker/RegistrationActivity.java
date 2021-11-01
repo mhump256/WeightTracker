@@ -21,7 +21,7 @@ public class RegistrationActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor sharedPreferencesEditor;
 
-    UsernameDBHelper DB;
+    UsernameDBHelperTest DB;
 
 
     @Override
@@ -33,7 +33,7 @@ public class RegistrationActivity extends AppCompatActivity {
         eRegPassword = findViewById(R.id.etRegPassword);
         eRegister = findViewById(R.id.btnRegister);
 
-        DB = new UsernameDBHelper(this);
+        DB = new UsernameDBHelperTest(this);
 
         eRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +42,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 String regUsername = eRegName.getText().toString();
                 String regPassword = eRegPassword.getText().toString();
 
-                boolean checkInsertdata = DB.checkUser(regUsername);
+                boolean checkInsertdata = DB.checkusername(regUsername);
 
                 if(checkInsertdata==false){
 

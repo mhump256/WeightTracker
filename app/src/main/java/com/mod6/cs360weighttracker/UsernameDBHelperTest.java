@@ -23,46 +23,54 @@ public class UsernameDBHelperTest extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase MyDB) {
         String createTableStatement = "CREATE TABLE " + USER_TABLE + "("
                 + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
                 + COLUMN_USER_PASSWORD + " TEXT" + ")";
 
-        db.execSQL(createTableStatement);
+        MyDB.execSQL(createTableStatement);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase MyDB, int oldVersion, int newVersion) {
 
     }
 
     public boolean addOne(Users users){
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase MyDB = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_USER_NAME, users.getUsername());
         cv.put(COLUMN_USER_PASSWORD, users.getPassword());
 
-        long insert = db.insert(USER_TABLE, null, cv);
+        long insert = MyDB.insert(USER_TABLE, null, cv);
         if (insert == -1) {
             return false;
         }else {
         return true;}
     }
 
-    /*public List<RegistrationActivity> getEveryone() {
-        List<RegistrationActivity> returnList = new ArrayList<>();
+    public Boolean checkusername(String username) {
+        SQLiteDatabase MyDB = this.getReadableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select * from USER_TABLE where user_name = ?", new String[] {username});
 
-        String queryString = "SELECT * FROM " + USER_TABLE;
+        if(cursor.getCount()>0)
+            return true;
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        else
+            return false;
+    }
 
-        Cursor cursor = db.rawQuery(queryString);
+    public Boolean checkusernamepassword(String username, String password) {
+        SQLiteDatabase MyDB = this.getReadableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select * from USER_TABLE where user_name = ? and user_password = ?", new String[]{username, password});
 
-        if (cursor)
+        if (cursor.getCount() > 0)
+            return true;
 
-        return returnList;
-    }*/
+        else
+            return false;
+    }
 }
 
