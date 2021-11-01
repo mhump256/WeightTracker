@@ -54,6 +54,14 @@ public class RegistrationActivity extends AppCompatActivity {
                     else {
                         credentials = new Users(regUsername, regPassword);
 
+                        UsernameDBHelperTest userDBHelper = new UsernameDBHelperTest(RegistrationActivity.this);
+
+                        userDBHelper.addOne(credentials);
+
+                        boolean success = userDBHelper.addOne(credentials);
+
+                        Toast.makeText(RegistrationActivity.this, "Success= " +success, Toast.LENGTH_SHORT).show();
+
                         Toast.makeText(RegistrationActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
                     }
@@ -62,12 +70,14 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 
-    private boolean validate (String username, String password){
+    /*private boolean validate (String username, String password){
         if(username.isEmpty() || password.isEmpty()){
             Toast.makeText(this, "Please enter all information", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        return true;
-    }
+        else {
+            return true;
+        }
+    }*/
 }

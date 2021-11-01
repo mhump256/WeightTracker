@@ -163,6 +163,15 @@ public class MainActivity extends AppCompatActivity {
     /*Verify Login Credentials*/
     private boolean validate(String name, String password){
 
+        /*try {
+
+            while (r.next())
+            return true;
+        }catch (Exception e){
+            Toast.makeText(this, "Invalid Information", Toast.LENGTH_SHORT).show();
+            return false;
+        }*/
+
         if(credentials != null){
             if(name.equalsIgnoreCase(RegistrationActivity.credentials.getUsername()) && password.equals(RegistrationActivity.credentials.getPassword())){
                 return true;

@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.Nullable;
+
 public class UsernameDBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "logininfo.db";
@@ -15,21 +17,30 @@ public class UsernameDBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_USER_ID = "user_id";
     public static final String COLUMN_USER_NAME = "user_name";
     public static final String COLUMN_USER_PASSWORD = "user_password";
+    public static final String CUSTOMER_TABLE = "CUSTOMER_TABLE";
 
-    public String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
+    /*public String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
             + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
-            + COLUMN_USER_PASSWORD + " TEXT" + ")";
+            + COLUMN_USER_PASSWORD + " TEXT" + ")";*/
 
-    public String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
+    public String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + CUSTOMER_TABLE;
 
-    public UsernameDBHelper(Context context) {
+    public UsernameDBHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
+
+    /*public UsernameDBHelper(Context context) {
+        super(context, DATABASE_NAME, null, VERSION);
+    }*/
 
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_USER_TABLE);
+        String createTableStatement = "CREATE TABLE " + CUSTOMER_TABLE + "("
+                + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
+                + COLUMN_USER_PASSWORD + " TEXT" + ")";
+
+        db.execSQL(createTableStatement);
     }
 
     @Override
