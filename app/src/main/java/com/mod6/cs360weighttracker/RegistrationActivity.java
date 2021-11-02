@@ -1,7 +1,6 @@
 package com.mod6.cs360weighttracker;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +17,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public static Users credentials;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor sharedPreferencesEditor;
-
-    UsernameDBHelperTest DB;
+    DBHelper DB;
 
 
     @Override
@@ -33,7 +29,7 @@ public class RegistrationActivity extends AppCompatActivity {
         eRegPassword = findViewById(R.id.etRegPassword);
         eRegister = findViewById(R.id.btnRegister);
 
-        DB = new UsernameDBHelperTest(this);
+        DB = new DBHelper(this);
 
         eRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,9 +38,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 String regUsername = eRegName.getText().toString();
                 String regPassword = eRegPassword.getText().toString();
 
-                boolean checkInsertdata = DB.checkusername(regUsername);
+                boolean checkInsertData = DB.checkUsername(regUsername);
 
-                if(checkInsertdata==false){
+                if(checkInsertData==false){
 
                     if(regUsername.isEmpty() || regPassword.isEmpty()){
 
@@ -54,7 +50,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     else {
                         credentials = new Users(regUsername, regPassword);
 
-                        UsernameDBHelperTest userDBHelper = new UsernameDBHelperTest(RegistrationActivity.this);
+                        DBHelper userDBHelper = new DBHelper(RegistrationActivity.this);
 
                         userDBHelper.addOne(credentials);
 
@@ -69,15 +65,4 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
     }
-
-    /*private boolean validate (String username, String password){
-        if(username.isEmpty() || password.isEmpty()){
-            Toast.makeText(this, "Please enter all information", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        else {
-            return true;
-        }
-    }*/
 }

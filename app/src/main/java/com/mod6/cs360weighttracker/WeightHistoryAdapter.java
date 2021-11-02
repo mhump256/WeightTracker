@@ -1,7 +1,6 @@
 package com.mod6.cs360weighttracker;
 
 
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder>{
-    private ArrayList<weightHistoryView> mExampleList;
+public class WeightHistoryAdapter extends RecyclerView.Adapter<WeightHistoryAdapter.ExampleViewHolder>{
+    private final ArrayList<weightHistoryView> mExampleList;
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder{
         public ImageView mImageView;
@@ -29,7 +28,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         }
     }
 
-    public ExampleAdapter(ArrayList<weightHistoryView> exampleList) {
+    public WeightHistoryAdapter(ArrayList<weightHistoryView> exampleList) {
         mExampleList = exampleList;
     }
 
