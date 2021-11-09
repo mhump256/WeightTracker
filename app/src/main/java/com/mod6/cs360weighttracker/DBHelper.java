@@ -86,6 +86,22 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.execSQL(createTableStatement);
     }
 
+    //New Entry for Daily Weight Table
+    public void updateDailyTable(String userName, String newDate, String newWeight, String caloriesEaten, String caloriesUsed) {
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        String UserDailyTable = "Weight_Table_" + userName;
+
+        //Set new values
+        cv.put(COLUMN_DATE, newDate);
+        cv.put(COLUMN_WEIGHT, newWeight);
+        cv.put(COLUMN_CALORIC_INTAKE, caloriesEaten);
+        cv.put(COLUMN_CALORIC_EXPENDITURE, caloriesUsed);
+
+        MyDB.insert(UserDailyTable, null, cv);
+    }
+
 
 }
 

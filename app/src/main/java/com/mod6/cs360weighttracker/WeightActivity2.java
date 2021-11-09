@@ -1,17 +1,31 @@
 package com.mod6.cs360weighttracker;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class WeightActivity2 extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -21,14 +35,14 @@ public class WeightActivity2 extends AppCompatActivity {
     private Button btNewEntry;
     private Button btGoal;
 
-    WeightHistoryDatabase WDB;
     DBHelper UDB;
 
     //Pop up for new entry
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
-    private EditText newentrypopup_Date, newentrypopup_Weight, newentrypopup_Intake, newentrypopup_Used;
+    private EditText newentrypopup_Weight, newentrypopup_Intake, newentrypopup_Used, newentrypopup_Date;
     private Button newentrypopup_save, newentrypopup_cancel;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,23 +58,40 @@ public class WeightActivity2 extends AppCompatActivity {
         DBHelper userDBHelper = new DBHelper(WeightActivity2.this);
         userDBHelper.createDailyTable(userName);
 
+        //Query table for array on RecyclerView
         ArrayList<weightHistoryView> exampleList = new ArrayList<>();
-        exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, userName, "208"));
+        String selectQuery = "SELECT * FROM " + "Weight_Table_" + userName;
+
+        SQLiteDatabase db = UDB.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        //Move to first row
+        cursor.moveToFirst();
+        while (cursor.isAfterLast() == false) {
+            exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background,
+                    cursor.getString(1), cursor.getString(2)));
+            cursor.moveToNext();
+        }
+
+
+        /*exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, userName, "208"));
         exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, "12/16/20", "207"));
         exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, "12/17/20", "206"));
         exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, "12/18/20", "206"));
         exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, "12/19/20", "206"));
         exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, "12/20/20", "205"));
-        exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, "12/21/20", "204"));
+        exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, "12/21/20", "204"));*/
 
 
         mRecyclerView = findViewById(R.id.weightRecycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new WeightHistoryAdapter(exampleList);
-
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        cursor.close();
+        userDBHelper.close();
 
         //Listener for New Entry
         btNewEntry = findViewById(R.id.btNewEntry);
@@ -84,9 +115,10 @@ public class WeightActivity2 extends AppCompatActivity {
     }
 
     //New entry popup
-    public void createNewWeight(){
+    public void createNewWeight() {
         dialogBuilder = new AlertDialog.Builder(this);
         final View entryPopupView = getLayoutInflater().inflate(R.layout.popup, null);
+
 
         newentrypopup_Date = (EditText) entryPopupView.findViewById(R.id.newentrypopup_Date);
         newentrypopup_Weight = (EditText) entryPopupView.findViewById(R.id.newentrypopup_Weight);
@@ -100,19 +132,37 @@ public class WeightActivity2 extends AppCompatActivity {
         dialog = dialogBuilder.create();
         dialog.show();
 
+        String userName = getIntent().getStringExtra("message_key");
+        Intent nameTransfer = new Intent(WeightActivity2.this, WeightHistoryDatabase.class);
+        nameTransfer.putExtra("message_key", userName);
+
         newentrypopup_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //define save button
+                String inputDate = newentrypopup_Date.getText().toString();
+                String inputWeight = newentrypopup_Weight.getText().toString();
+                String inputCalorieInt = newentrypopup_Intake.getText().toString();
+                String inputCalorieUse = newentrypopup_Used.getText().toString();
+
+
+                if (inputDate.isEmpty() || inputWeight.isEmpty() || inputCalorieInt.isEmpty() || inputCalorieUse.isEmpty()) {
+                    Toast.makeText(WeightActivity2.this, "Please enter all information", Toast.LENGTH_SHORT).show();
+                } else {
+                    UDB.updateDailyTable(userName, inputDate, inputWeight, inputCalorieInt, inputCalorieUse);
+                    dialog.dismiss();
+                }
+
+
+                newentrypopup_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //define cancel button
+                        dialog.dismiss();
+                    }
+                });
             }
         });
 
-        newentrypopup_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //define cancel button
-                dialog.dismiss();
-            }
-        });
+
     }
 }

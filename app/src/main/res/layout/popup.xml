@@ -23,11 +23,10 @@
         android:id="@+id/newentrypopup_Date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:hint="Enter Date: "
+        android:layout_marginTop="24dp"
+        android:hint="Enter Date: MM/DD/YY"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newentrypopup" />
 
@@ -85,5 +84,6 @@
         android:text="CANCEL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newentrypopup_Used" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
