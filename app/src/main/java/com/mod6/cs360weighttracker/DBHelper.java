@@ -11,10 +11,19 @@ import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
 
+    //Credentials Table
     public static final String USER_TABLE = "USER_TABLE";
     public static final String COLUMN_USER_ID = "user_id";
     public static final String COLUMN_USER_NAME = "user_name";
     public static final String COLUMN_USER_PASSWORD = "user_password";
+
+    //Daily Weight Table
+    public static final String COLUMN_ID = "ID";
+    public static final String COLUMN_DATE = "Date";
+    public static final String COLUMN_WEIGHT = "Weight";
+    public static final String COLUMN_GOAL = "Goal";
+    public static final String COLUMN_CALORIC_INTAKE = "CalorieIntake";
+    public static final String COLUMN_CALORIC_EXPENDITURE = "CalorieLost";
 
 
     public DBHelper(@Nullable Context context) {
@@ -46,21 +55,20 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_USER_NAME, users.getUsername());
         cv.put(COLUMN_USER_PASSWORD, users.getPassword());
 
-        long insert = MyDB.insert(USER_TABLE, null, cv);
-        return insert != -1;
+        MyDB.insert(USER_TABLE, null, cv);
+
+        return true;
     }
 
     public Boolean checkUsername(String username) {
         SQLiteDatabase MyDB = this.getReadableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from USER_TABLE where user_name = ?", new String[] {username});
-        cursor.close();  //close
         return cursor.getCount() > 0;
     }
 
     public Boolean checkUsernamePassword(String username, String password) {
         SQLiteDatabase MyDB = this.getReadableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from USER_TABLE where user_name = ? and user_password = ?", new String[]{username, password});
-        cursor.close();         //close
         return cursor.getCount() > 0;
     }
 
@@ -68,12 +76,11 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase MyDB = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        String USER_TABLE = "Weight_Table_" + userName;
-        String COLUMN_DATE = "Date";
-        String COLUMN_WEIGHT = "Weight";
+        String USER_WEIGHT_TABLE = "Weight_Table_" + userName;
 
-        String createTableStatement = "CREATE TABLE IF NOT EXISTS " + USER_TABLE + "("
-                + COLUMN_DATE + " TEXT, " + COLUMN_WEIGHT + " INTEGER"
+        String createTableStatement = "CREATE TABLE IF NOT EXISTS " + USER_WEIGHT_TABLE + "("
+                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_DATE + " TEXT, " + COLUMN_WEIGHT + " INTEGER, " + COLUMN_GOAL + " INTEGER, "
+                + COLUMN_CALORIC_INTAKE + " INTEGER, " + COLUMN_CALORIC_EXPENDITURE + " INTEGER"
                 + ")";
 
         MyDB.execSQL(createTableStatement);

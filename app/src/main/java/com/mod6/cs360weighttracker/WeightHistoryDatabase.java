@@ -38,19 +38,4 @@ public class WeightHistoryDatabase extends SQLiteOpenHelper {
         onCreate(WDB);
     }
 
-    /*public boolean addOne(Users users){
-
-        SQLiteDatabase MyDB = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
-        cv.put(COLUMN_USER_NAME, users.getUsername());
-        cv.put(COLUMN_USER_PASSWORD, users.getPassword());
-
-        long insert = MyDB.insert(USER_TABLE, null, cv);
-        if (insert == -1) {
-            return false;
-        }else {
-            return true;}
-    }*/
-
 }

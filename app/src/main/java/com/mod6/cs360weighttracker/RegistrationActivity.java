@@ -40,7 +40,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 boolean checkInsertData = DB.checkUsername(regUsername);
 
-                if(checkInsertData==false){
+                if(!checkInsertData){
 
                     if(regUsername.isEmpty() || regPassword.isEmpty()){
 
@@ -54,9 +54,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         userDBHelper.addOne(credentials);
 
-                        boolean success = userDBHelper.addOne(credentials);
-
-                        Toast.makeText(RegistrationActivity.this, "Success= " +success, Toast.LENGTH_SHORT).show();
+                        //boolean success = userDBHelper.addOne(credentials);
+                        //Toast.makeText(RegistrationActivity.this, "Success= " +success, Toast.LENGTH_SHORT).show();
 
                         Toast.makeText(RegistrationActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
