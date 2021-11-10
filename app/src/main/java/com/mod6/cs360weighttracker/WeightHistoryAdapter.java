@@ -1,35 +1,42 @@
 package com.mod6.cs360weighttracker;
 
 
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
-public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder>{
-    private ArrayList<weightHistoryView> mExampleList;
+public class WeightHistoryAdapter extends RecyclerView.Adapter<WeightHistoryAdapter.ExampleViewHolder>{
+    private final ArrayList<weightHistoryView> mExampleList;
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder{
         public ImageView mImageView;
         public TextView mTextView1;
         public TextView mTextView2;
+        public Button mDeleteCard;
+
+
 
         public ExampleViewHolder(View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.imageView2);
             mTextView1 = itemView.findViewById(R.id.textView1);
             mTextView2 = itemView.findViewById(R.id.textView2);
+            mDeleteCard = itemView.findViewById(R.id.bDeleteCard);
         }
     }
 
-    public ExampleAdapter(ArrayList<weightHistoryView> exampleList) {
+    public WeightHistoryAdapter(ArrayList<weightHistoryView> exampleList) {
         mExampleList = exampleList;
     }
 
