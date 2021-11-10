@@ -29,7 +29,7 @@ import java.util.Date;
 
 public class WeightActivity2 extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private WeightHistoryAdapter mAdapter;                  //Changed from RecyclerView.adapter
     private RecyclerView.LayoutManager mLayoutManager;
 
     private Button btNewEntry;
@@ -50,20 +50,24 @@ public class WeightActivity2 extends AppCompatActivity {
         setContentView(R.layout.weight_history);
 
         String userName = getIntent().getStringExtra("message_key");
-        Intent nameTransfer = new Intent(WeightActivity2.this, WeightHistoryDatabase.class);
+        Intent nameTransfer = new Intent(WeightActivity2.this, WeightGoal.class);
         nameTransfer.putExtra("message_key", userName);
 
 
         UDB = new DBHelper(this);
         DBHelper userDBHelper = new DBHelper(WeightActivity2.this);
         userDBHelper.createDailyTable(userName);
+        userDBHelper.orderDailyTable(userName);
 
-        //Query table for array on RecyclerView
+        //Query table for array on RecyclerView in descending order for date
         ArrayList<weightHistoryView> exampleList = new ArrayList<>();
+        String tableName = "Weight_Table_" + userName;
         String selectQuery = "SELECT * FROM " + "Weight_Table_" + userName;
+        String column = "Date";
+
 
         SQLiteDatabase db = UDB.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.query(tableName, null, null, null, null, null, column + " DESC");
 
         //Move to first row
         cursor.moveToFirst();
@@ -108,7 +112,10 @@ public class WeightActivity2 extends AppCompatActivity {
         btGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WeightActivity2.this, WeightGoal.class));
+
+                Intent nameTransfer = new Intent(WeightActivity2.this, WeightGoal.class);
+                nameTransfer.putExtra("message_key", userName);
+                startActivity(nameTransfer);
             }
         });
 
@@ -132,8 +139,9 @@ public class WeightActivity2 extends AppCompatActivity {
         dialog = dialogBuilder.create();
         dialog.show();
 
+        //Pass username to Weight Goal
         String userName = getIntent().getStringExtra("message_key");
-        Intent nameTransfer = new Intent(WeightActivity2.this, WeightHistoryDatabase.class);
+        Intent nameTransfer = new Intent(WeightActivity2.this, WeightGoal.class);
         nameTransfer.putExtra("message_key", userName);
 
         newentrypopup_save.setOnClickListener(new View.OnClickListener() {
@@ -144,12 +152,16 @@ public class WeightActivity2 extends AppCompatActivity {
                 String inputCalorieInt = newentrypopup_Intake.getText().toString();
                 String inputCalorieUse = newentrypopup_Used.getText().toString();
 
-
                 if (inputDate.isEmpty() || inputWeight.isEmpty() || inputCalorieInt.isEmpty() || inputCalorieUse.isEmpty()) {
                     Toast.makeText(WeightActivity2.this, "Please enter all information", Toast.LENGTH_SHORT).show();
                 } else {
-                    UDB.updateDailyTable(userName, inputDate, inputWeight, inputCalorieInt, inputCalorieUse);
+
+                    //String newDate = formatDate(inputDate);
+
+                    UDB.updateDailyTable(userName, inputDate, inputWeight, null, inputCalorieInt, inputCalorieUse);
                     dialog.dismiss();
+                    finish();
+                    startActivity(getIntent());
                 }
 
 
@@ -162,7 +174,6 @@ public class WeightActivity2 extends AppCompatActivity {
                 });
             }
         });
-
 
     }
 }
