@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/red">
 
+
     <Button
         android:id="@+id/btNewEntry"
 
@@ -15,13 +16,11 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="31dp"
-        android:layout_marginEnd="156dp"
-        android:layout_marginBottom="21dp"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="267dp"
+        android:layout_marginBottom="19dp"
         android:text="New Entry" />
-
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/weightRecycler"
@@ -33,15 +32,15 @@
 
     <Button
         android:id="@+id/btGoalWeight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="111dp"
+        android:layout_height="48dp"
         android:layout_below="@+id/weightRecycler"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="295dp"
-        android:layout_marginTop="37dp"
-        android:layout_marginEnd="23dp"
-        android:layout_marginBottom="22dp"
+        android:layout_marginStart="279dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="39dp"
+        android:layout_marginBottom="21dp"
         android:text="Goal" />
 </com.google.android.material.circularreveal.CircularRevealRelativeLayout>

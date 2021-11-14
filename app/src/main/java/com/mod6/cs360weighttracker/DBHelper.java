@@ -21,10 +21,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "ID";
     public static final String COLUMN_DATE = "Date";
     public static final String COLUMN_WEIGHT = "Weight";
-    public static final String COLUMN_GOAL = "Goal";
     public static final String COLUMN_CALORIC_INTAKE = "CalorieIntake";
     public static final String COLUMN_CALORIC_EXPENDITURE = "CalorieLost";
 
+    //Goal Table
+    public static final String COLUMN_GOAL = "Goal";
 
     public DBHelper(@Nullable Context context) {
         super(context, "userName.db", null, 1);
@@ -79,7 +80,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String USER_WEIGHT_TABLE = "Weight_Table_" + userName;
 
         String createTableStatement = "CREATE TABLE IF NOT EXISTS " + USER_WEIGHT_TABLE + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_DATE + " TEXT, " + COLUMN_WEIGHT + " INTEGER, " + COLUMN_GOAL + " INTEGER, "
+                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_DATE + " TEXT, " + COLUMN_WEIGHT + " INTEGER, "
                 + COLUMN_CALORIC_INTAKE + " INTEGER, " + COLUMN_CALORIC_EXPENDITURE + " INTEGER"
                 + ")";
 
@@ -96,7 +97,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
     //New Entry for Daily Weight Table
-    public void updateDailyTable(String userName, String newDate, String newWeight, String newGoal, String caloriesEaten, String caloriesUsed) {
+    public void updateDailyTable(String userName, String newDate, String newWeight,  String caloriesEaten, String caloriesUsed) {
         SQLiteDatabase MyDB = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -105,13 +106,37 @@ public class DBHelper extends SQLiteOpenHelper {
         //Set new values
         cv.put(COLUMN_DATE, newDate);
         cv.put(COLUMN_WEIGHT, newWeight);
-        cv.put(COLUMN_GOAL, newGoal);
         cv.put(COLUMN_CALORIC_INTAKE, caloriesEaten);
         cv.put(COLUMN_CALORIC_EXPENDITURE, caloriesUsed);
 
         MyDB.insert(UserDailyTable, null, cv);
 
 
+    }
+
+    public void createGoalTable(String userName) {
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        String USER_GOAL_TABLE = "Goal_Table_" + userName;
+
+        String createTableStatement = "CREATE TABLE IF NOT EXISTS " + USER_GOAL_TABLE + "("
+                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_DATE + " TEXT, " + COLUMN_GOAL + " INTEGER" + ")";
+
+        MyDB.execSQL(createTableStatement);
+    }
+
+    public void updateGoalTable(String userName, String newDate, String newGoal) {
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        String UserGoalTable = "Goal_Table_" + userName;
+
+        //Set new values
+        cv.put(COLUMN_DATE, newDate);
+        cv.put(COLUMN_GOAL, newGoal);
+
+        MyDB.insert(UserGoalTable, null, cv);
     }
 
 

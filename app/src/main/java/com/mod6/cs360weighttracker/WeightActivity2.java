@@ -42,7 +42,6 @@ public class WeightActivity2 extends AppCompatActivity {
     private AlertDialog dialog;
     private EditText newentrypopup_Weight, newentrypopup_Intake, newentrypopup_Used, newentrypopup_Date;
     private Button newentrypopup_save, newentrypopup_cancel;
-    private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,16 +76,6 @@ public class WeightActivity2 extends AppCompatActivity {
             cursor.moveToNext();
         }
 
-
-        /*exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, userName, "208"));
-        exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, "12/16/20", "207"));
-        exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, "12/17/20", "206"));
-        exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, "12/18/20", "206"));
-        exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, "12/19/20", "206"));
-        exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, "12/20/20", "205"));
-        exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background, "12/21/20", "204"));*/
-
-
         mRecyclerView = findViewById(R.id.weightRecycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -102,7 +91,6 @@ public class WeightActivity2 extends AppCompatActivity {
         btNewEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(WeightActivity2.this, WeightGoal.class));
                 createNewWeight();
             }
         });
@@ -158,7 +146,7 @@ public class WeightActivity2 extends AppCompatActivity {
 
                     //String newDate = formatDate(inputDate);
 
-                    UDB.updateDailyTable(userName, inputDate, inputWeight, null, inputCalorieInt, inputCalorieUse);
+                    UDB.updateDailyTable(userName, inputDate, inputWeight, inputCalorieInt, inputCalorieUse);
                     dialog.dismiss();
                     finish();
                     startActivity(getIntent());
