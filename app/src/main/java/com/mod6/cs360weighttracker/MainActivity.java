@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     DBHelper DB;
 
-    /*Launch first screen*/
+    //Launch login screen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,12 +73,14 @@ public class MainActivity extends AppCompatActivity {
                 String inputName = eUsername.getText().toString();
                 String inputPassword = ePassword.getText().toString();
 
+
+
                 /*Verify User input info*/
                 if(inputName.isEmpty() || inputPassword.isEmpty()){
                     Toast.makeText(MainActivity.this, "Please enter Username and Password", Toast.LENGTH_SHORT).show();
                 } else{
-
                     isValid = validate(inputName, inputPassword);
+
                     /*Limit the attempts to login*/
                     if(!isValid){
                         counter--;
@@ -114,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //SMS permission place holder for future expansion
     private void requestSmsPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECEIVE_SMS)) {
 
@@ -152,12 +155,37 @@ public class MainActivity extends AppCompatActivity {
 
     /*Verify Login Credentials*/
     private boolean validate(String name, String password){
-        Boolean checkUser = DB.checkUsernamePassword(name, password);
+
+        boolean flag = false;
+
+        try {
+            String encryptName = EncryptDecrypt.encrypt(name);
+            String encryptPass = EncryptDecrypt.encrypt(password);
+
+            Boolean checkUser = DB.checkUsernamePassword(encryptName, encryptPass);
+
+            if (checkUser) {
+                DB.close();
+                flag = true;
+            } else {
+                return false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (flag) {
+            return true;
+        } else {
+            return false;
+        }
+        /*Boolean checkUser = DB.checkUsernamePassword(name, password);
         if (checkUser) {
             DB.close();
             return true;
         }
         else
-            return false;
+            return false;*/
     }
 }

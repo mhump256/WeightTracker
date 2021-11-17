@@ -139,6 +139,13 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.insert(UserGoalTable, null, cv);
     }
 
+    //Testing Cipher
+    public char[] encryptStuff(String userName){
+        char[] ch = userName.toCharArray();
+
+        return ch;
+    }
+
 
 }
 

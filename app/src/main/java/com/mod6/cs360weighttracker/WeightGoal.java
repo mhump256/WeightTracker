@@ -18,14 +18,12 @@ import java.util.Calendar;
 public class WeightGoal extends AppCompatActivity {
     private int goal;
     private int goalComp;
-    private int getGoalDiffNum;
     private TextView tvGoalWeight;
     private ProgressBar pbProgressBar;
     private TextView tvProgress;
     private EditText etWeightGoal;
     private Button bUpdate;
     private double goalProgr = 0;
-
 
     DBHelper DB;
 
@@ -42,10 +40,10 @@ public class WeightGoal extends AppCompatActivity {
         //Receive User's name from previous activities
         String userName = getIntent().getStringExtra("message_key");
 
+        //Initialize database
         DB = new DBHelper(this);
         DBHelper userDbHelper = new DBHelper(WeightGoal.this);
         userDbHelper.createGoalTable(userName);
-
 
 
         goal = organizeGoalTable(userName);
@@ -54,6 +52,7 @@ public class WeightGoal extends AppCompatActivity {
         goalProgr = goalComp;
         tvProgress.setText(goalProgr + "%");
 
+        //Goal update listener
         bUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,11 +71,13 @@ public class WeightGoal extends AppCompatActivity {
         updateProgressBar();
     }
 
+    //Update Progress bar
     private void updateProgressBar() {
         pbProgressBar = findViewById(R.id.pbProgressBar);
         pbProgressBar.setProgress((int) goalProgr);
     }
 
+    //Organize table to retrieve newest goal
     private int organizeGoalTable(String userName) {
         //Query goal table for array and arrange table
         Integer goal = null;
@@ -98,6 +99,7 @@ public class WeightGoal extends AppCompatActivity {
         return goal;
     }
 
+    //Goal completion based off initial weight, current weight, and current goal
     private int GoalPerc(String userName, int goal) {
         //Query First Weight Table
         int firstWeight = 0;
@@ -105,7 +107,7 @@ public class WeightGoal extends AppCompatActivity {
         double goalDiffDenom;
         int currGoal;
         int currWeight = 0;
-        int goalCompPerc = 0;
+        int goalCompPerc;
         String tableWeight = "Weight_Table_" + userName;
         String goalWeight = "Goal_Table_" + userName;
         String target1 = "Weight";
@@ -142,9 +144,6 @@ public class WeightGoal extends AppCompatActivity {
 
         if (goalDiffNum <= 0){
             Toast.makeText(WeightGoal.this, "Invalid Goal", Toast.LENGTH_SHORT).show();
-            //goalCompPerc = 0;
-
-            System.out.println("YOLO " + goalDiffDenom + "//" + goalDiffNum + "//" + goalCompPerc);
         }
         System.out.println("Current percentage " + goalDiffNum + " " + goalDiffDenom + " " + goalCompPerc);
         return (int) goalCompPerc;
