@@ -30,7 +30,8 @@ public class WeightActivity2 extends AppCompatActivity {
     //Pop up for new weight entry
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
-    private EditText newentrypopup_Weight, newentrypopup_Intake, newentrypopup_Used, newentrypopup_Date;
+    private EditText newentrypopup_Weight, newentrypopup_Intake, newentrypopup_Used,
+            newpopup_Year, newpopup_Month, newpopup_Day;
     private Button newentrypopup_save, newentrypopup_cancel;
 
     @Override
@@ -107,8 +108,11 @@ public class WeightActivity2 extends AppCompatActivity {
         dialogBuilder = new AlertDialog.Builder(this);
         final View entryPopupView = getLayoutInflater().inflate(R.layout.popup, null);
 
-
-        newentrypopup_Date = (EditText) entryPopupView.findViewById(R.id.newentrypopup_Date);
+        //TODO: remove
+        //newentrypopup_Date = (EditText) entryPopupView.findViewById(R.id.newentrypopup_Date);
+        newpopup_Year = (EditText) entryPopupView.findViewById(R.id.etNewYear);
+        newpopup_Month = (EditText) entryPopupView.findViewById(R.id.etNewMonth);
+        newpopup_Day = (EditText) entryPopupView.findViewById(R.id.etNewDay);
         newentrypopup_Weight = (EditText) entryPopupView.findViewById(R.id.newentrypopup_Weight);
         newentrypopup_Intake = (EditText) entryPopupView.findViewById(R.id.newentrypopup_Intake);
         newentrypopup_Used = (EditText) entryPopupView.findViewById(R.id.newentrypopup_Used);
@@ -128,7 +132,12 @@ public class WeightActivity2 extends AppCompatActivity {
         newentrypopup_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String inputDate = newentrypopup_Date.getText().toString();
+                String inputYear = newpopup_Year.getText().toString();
+                String inputMonth = newpopup_Month.getText().toString();
+                String inputDay = newpopup_Day.getText().toString();
+
+
+                String inputDate = (inputYear + "-" + inputMonth + "-" + inputDay);
                 String inputWeight = newentrypopup_Weight.getText().toString();
                 String inputCalorieInt = newentrypopup_Intake.getText().toString();
                 String inputCalorieUse = newentrypopup_Used.getText().toString();
@@ -143,16 +152,16 @@ public class WeightActivity2 extends AppCompatActivity {
                     finish();
                     startActivity(getIntent());
                 }
+            }
+        });
 
-                newentrypopup_cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //define cancel button
-                        dialog.dismiss();
-                        finish();
-                        startActivity(getIntent());
-                    }
-                });
+        newentrypopup_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //define cancel button
+                dialog.dismiss();
+                finish();
+                startActivity(getIntent());
             }
         });
 
