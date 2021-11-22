@@ -6,6 +6,46 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <EditText
+        android:id="@+id/etNewDay"
+        android:layout_width="53dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="108dp"
+        android:ems="10"
+        android:hint="DD"
+        android:inputType="number"
+        android:maxLength="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newentrypopup" />
+
+    <EditText
+        android:id="@+id/etNewMonth"
+        android:layout_width="53dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="12dp"
+        android:ems="10"
+        android:hint="MM"
+        android:inputType="number"
+        android:maxLength="2"
+        app:layout_constraintEnd_toStartOf="@+id/etNewDay"
+        app:layout_constraintTop_toBottomOf="@+id/newentrypopup" />
+
+    <EditText
+        android:id="@+id/etNewYear"
+        android:layout_width="53dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="68dp"
+        android:ems="10"
+        android:hint="YYYY"
+        android:inputType="number"
+        android:maxLength="4"
+        app:layout_constraintEnd_toStartOf="@+id/etNewMonth"
+        app:layout_constraintHorizontal_bias="0.909"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newentrypopup" />
+
     <ImageView
         android:id="@+id/newentrypopup"
         android:layout_width="150dp"
@@ -19,45 +59,38 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.027" />
 
-    <EditText
-        android:id="@+id/newentrypopup_Date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:hint="Enter Date: YYYY-MM-DD"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newentrypopup" />
 
     <EditText
         android:id="@+id/newentrypopup_Weight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="360dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="32dp"
         android:hint="Enter Weight: "
+        android:inputType="number"
         android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@+id/newentrypopup_Date"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etNewMonth" />
 
     <EditText
         android:id="@+id/newentrypopup_Intake"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="360dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="12dp"
         android:hint="Enter Calories Consumed: "
+        android:inputType="number"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newentrypopup_Weight" />
 
     <EditText
         android:id="@+id/newentrypopup_Used"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="358dp"
+        android:layout_height="46dp"
         android:layout_marginTop="16dp"
         android:hint="Enter Calories Used: "
+        android:inputType="number"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,6 +117,7 @@
         android:text="CANCEL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newentrypopup_Used" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

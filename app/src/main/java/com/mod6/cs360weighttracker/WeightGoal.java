@@ -2,20 +2,28 @@ package com.mod6.cs360weighttracker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class WeightGoal extends AppCompatActivity {
-    private int progr = 80;
+    private int goal;
+    private int goalComp;
     private TextView tvGoalWeight;
     private ProgressBar pbProgressBar;
+    private TextView tvProgress;
     private EditText etWeightGoal;
     private Button bUpdate;
+    private double goalProgr = 0;
 
     DBHelper DB;
 
@@ -25,39 +33,119 @@ public class WeightGoal extends AppCompatActivity {
         setContentView(R.layout.activity_weight_goal);
 
         tvGoalWeight = findViewById(R.id.tvGoalWeight);
+        tvProgress = findViewById(R.id.tvPercentage);
         etWeightGoal = findViewById(R.id.etEnterGoal);
         bUpdate = findViewById(R.id.btUpdate);
 
         //Receive User's name from previous activities
         String userName = getIntent().getStringExtra("message_key");
 
+        //Initialize database
         DB = new DBHelper(this);
+        DBHelper userDbHelper = new DBHelper(WeightGoal.this);
+        userDbHelper.createGoalTable(userName);
 
+
+        goal = organizeGoalTable(userName);
+        tvGoalWeight.setText("Current Goal " + goal);
+        goalComp = GoalPerc(userName, goal);
+        goalProgr = goalComp;
+        tvProgress.setText(goalProgr + "%");
+
+        //Goal update listener
         bUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String userGoal = etWeightGoal.getText().toString();
-
                 Calendar c = Calendar.getInstance();
                 int day = c.get(Calendar.DAY_OF_MONTH);
                 int month = c.get(Calendar.MONTH) + 1;
-                int year = c.get(Calendar.YEAR) + 1;
+                int year = c.get(Calendar.YEAR);
                 String date = year + "-" + month + "-" + day;
 
-                DB.updateDailyTable(userName, date, null, userGoal, null, null);
-
-                tvGoalWeight.setText(userGoal);
+                DB.updateGoalTable(userName, date, userGoal);
+                startActivity(getIntent());
             }
         });
 
         updateProgressBar();
     }
 
+    //Update Progress bar
     private void updateProgressBar() {
-        //pbProgressBar = findViewById(R.id.tvProgress);
         pbProgressBar = findViewById(R.id.pbProgressBar);
+        pbProgressBar.setProgress((int) goalProgr);
+    }
 
-        pbProgressBar.setProgress(progr);
-        //pbProgressBar.setProgress(progr + "%");
+    //Organize table to retrieve newest goal
+    private int organizeGoalTable(String userName) {
+        //Query goal table for array and arrange table
+        Integer goal = null;
+        ArrayList<WeightGoal> goalList = new ArrayList<>();
+        String tableGoal = "Goal_Table_" + userName;
+        String target = "Goal";
+        String column = "ID";
+
+
+        SQLiteDatabase db = DB.getReadableDatabase();
+        Cursor cursor = db.query(tableGoal, new String[]{target}, null,
+                null, null, null, column + " DESC");
+
+        if (cursor != null && cursor.moveToFirst()){
+            goal = cursor.getInt(0);
+        }else {
+            goal = 0;
+        }
+        return goal;
+    }
+
+    //Goal completion based off initial weight, current weight, and current goal
+    private int GoalPerc(String userName, int goal) {
+        //Query First Weight Table
+        int firstWeight = 0;
+        double goalDiffNum;
+        double goalDiffDenom;
+        int currGoal;
+        int currWeight = 0;
+        int goalCompPerc;
+        String tableWeight = "Weight_Table_" + userName;
+        String goalWeight = "Goal_Table_" + userName;
+        String target1 = "Weight";
+        String target2 = "Goal";
+        String column1 = "Date";
+
+
+        //Grab first weight
+        SQLiteDatabase db = DB.getReadableDatabase();
+        Cursor cursor1 = db.query(tableWeight, new String[]{target1}, null, null, null,
+                null, column1 + " ASC");
+
+        if (cursor1 != null && cursor1.moveToFirst()){
+            firstWeight = cursor1.getInt(0);
+        }
+
+        //Grab current goal weight
+        Cursor cursor2 = db.query(goalWeight, new String[]{target2}, null, null, null,
+                null, column1 + " DESC");
+        if (cursor2 != null && cursor2.moveToFirst()) {
+            currGoal = cursor2.getInt(0);
+        }
+
+        //Grab current weight
+        Cursor cursor3 = db.query(tableWeight, new String[]{target1}, null, null, null,
+                null, column1 + "  DESC");
+        if (cursor3 != null && cursor3.moveToFirst()){
+            currWeight = cursor3.getInt(0);
+        }
+
+        goalDiffDenom = (firstWeight - goal);
+        goalDiffNum = (firstWeight - currWeight);
+        goalCompPerc = (int) ((goalDiffNum / goalDiffDenom) * 100);
+
+        if (goalDiffNum <= 0){
+            Toast.makeText(WeightGoal.this, "Invalid Goal", Toast.LENGTH_SHORT).show();
+        }
+        System.out.println("Current percentage " + goalDiffNum + " " + goalDiffDenom + " " + goalCompPerc);
+        return (int) goalCompPerc;
     }
 }

@@ -17,6 +17,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public static Users credentials;
 
+    //Initialize User Database
     DBHelper DB;
 
 
@@ -38,6 +39,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 String regUsername = eRegName.getText().toString();
                 String regPassword = eRegPassword.getText().toString();
 
+                //Check if user is in database
                 boolean checkInsertData = DB.checkUsername(regUsername);
 
                 if(!checkInsertData){
@@ -48,14 +50,19 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
 
                     else {
-                        credentials = new Users(regUsername, regPassword);
+                        //Testing encryption
+                        try {
+                            String encryptName = EncryptDecrypt.encrypt(regUsername);
+                            String encryptPass = EncryptDecrypt.encrypt(regPassword);
+                            credentials = new Users(encryptName, encryptPass);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        //credentials = new Users(regUsername, regPassword);
 
                         DBHelper userDBHelper = new DBHelper(RegistrationActivity.this);
-
                         userDBHelper.addOne(credentials);
-
-                        //boolean success = userDBHelper.addOne(credentials);
-                        //Toast.makeText(RegistrationActivity.this, "Success= " +success, Toast.LENGTH_SHORT).show();
 
                         Toast.makeText(RegistrationActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
