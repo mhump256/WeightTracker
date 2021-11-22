@@ -23,8 +23,8 @@ public class WeightHistoryAdapter extends RecyclerView.Adapter<WeightHistoryAdap
         public ImageView mImageView;
         public TextView mTextView1;
         public TextView mTextView2;
+        public TextView mTextView3;
         public Button mDeleteCard;
-
 
 
         public ExampleViewHolder(View itemView) {
@@ -32,6 +32,7 @@ public class WeightHistoryAdapter extends RecyclerView.Adapter<WeightHistoryAdap
             mImageView = itemView.findViewById(R.id.imageView2);
             mTextView1 = itemView.findViewById(R.id.textView1);
             mTextView2 = itemView.findViewById(R.id.textView2);
+            mTextView3 = itemView.findViewById(R.id.textView3);
             mDeleteCard = itemView.findViewById(R.id.bDeleteCard);
         }
     }
@@ -56,6 +57,7 @@ public class WeightHistoryAdapter extends RecyclerView.Adapter<WeightHistoryAdap
         holder.mImageView.setImageResource(currentItem.getImageResource());
         holder.mTextView1.setText(currentItem.getText1());
         holder.mTextView2.setText(currentItem.getText2());
+        holder.mTextView3.setText(currentItem.getText3());
     }
 
     @Override

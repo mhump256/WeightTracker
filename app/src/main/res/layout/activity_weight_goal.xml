@@ -36,6 +36,7 @@
         android:id="@+id/tvGoalWeight"
         android:layout_width="202dp"
         android:layout_height="42dp"
+        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/pbProgressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

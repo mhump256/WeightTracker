@@ -63,8 +63,13 @@ public class WeightActivity2 extends AppCompatActivity {
         //Move to first row
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false) {
+
+            int cIntake = Integer.parseInt(cursor.getString(3));
+            int cUsed = Integer.parseInt(cursor.getString(4));
+            String cDeficit = "Calories: " + String.valueOf((cIntake - cUsed));
+
             exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background,
-                    cursor.getString(1), cursor.getString(2)));
+                    cursor.getString(2), cursor.getString(1), cDeficit));  //TODO attain calorie info
             cursor.moveToNext();
         }
 
@@ -132,9 +137,9 @@ public class WeightActivity2 extends AppCompatActivity {
         newentrypopup_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String inputYear = newpopup_Year.getText().toString();
-                String inputMonth = newpopup_Month.getText().toString();
-                String inputDay = newpopup_Day.getText().toString();
+                int inputYear = Integer.parseInt(newpopup_Year.getText().toString());
+                int inputMonth = Integer.parseInt(newpopup_Month.getText().toString());
+                int inputDay = Integer.parseInt(newpopup_Day.getText().toString());
 
 
                 String inputDate = (inputYear + "-" + inputMonth + "-" + inputDay);
@@ -147,10 +152,15 @@ public class WeightActivity2 extends AppCompatActivity {
                     Toast.makeText(WeightActivity2.this, "Please enter all information", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    UDB.updateDailyTable(userName, inputDate, inputWeight, inputCalorieInt, inputCalorieUse);
-                    dialog.dismiss();
-                    finish();
-                    startActivity(getIntent());
+                    //Keep number input to valid date ranges
+                    if(inputYear > 9999 || inputMonth > 12 || inputDay > 31){
+                        Toast.makeText(WeightActivity2.this, "Invalid Entry", Toast.LENGTH_SHORT).show();
+                    }else {
+                        UDB.updateDailyTable(userName, inputDate, inputWeight, inputCalorieInt, inputCalorieUse);
+                        dialog.dismiss();
+                        finish();
+                        startActivity(getIntent());
+                    }
                 }
             }
         });
