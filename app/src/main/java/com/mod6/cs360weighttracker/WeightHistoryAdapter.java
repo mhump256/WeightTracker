@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,15 +17,14 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class WeightHistoryAdapter extends RecyclerView.Adapter<WeightHistoryAdapter.ExampleViewHolder>{
+public class WeightHistoryAdapter extends RecyclerView.Adapter<WeightHistoryAdapter.ExampleViewHolder> {
     private final ArrayList<weightHistoryView> mExampleList;
 
-    public static class ExampleViewHolder extends RecyclerView.ViewHolder{
+    public static class ExampleViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
         public TextView mTextView1;
         public TextView mTextView2;
         public TextView mTextView3;
-        public Button mDeleteCard;
 
 
         public ExampleViewHolder(View itemView) {
@@ -33,7 +33,6 @@ public class WeightHistoryAdapter extends RecyclerView.Adapter<WeightHistoryAdap
             mTextView1 = itemView.findViewById(R.id.textView1);
             mTextView2 = itemView.findViewById(R.id.textView2);
             mTextView3 = itemView.findViewById(R.id.textView3);
-            mDeleteCard = itemView.findViewById(R.id.bDeleteCard);
         }
     }
 
@@ -58,6 +57,7 @@ public class WeightHistoryAdapter extends RecyclerView.Adapter<WeightHistoryAdap
         holder.mTextView1.setText(currentItem.getText1());
         holder.mTextView2.setText(currentItem.getText2());
         holder.mTextView3.setText(currentItem.getText3());
+
     }
 
     @Override

@@ -62,14 +62,14 @@ public class WeightActivity2 extends AppCompatActivity {
 
         //Move to first row
         cursor.moveToFirst();
-        while (cursor.isAfterLast() == false) {
+        while (!cursor.isAfterLast()) {
 
             int cIntake = Integer.parseInt(cursor.getString(3));
             int cUsed = Integer.parseInt(cursor.getString(4));
             String cDeficit = "Calories: " + String.valueOf((cIntake - cUsed));
 
             exampleList.add(new weightHistoryView(R.drawable.ic_launcher_background,
-                    cursor.getString(2), cursor.getString(1), cDeficit));  //TODO attain calorie info
+                    cursor.getString(2), cursor.getString(1), cDeficit));
             cursor.moveToNext();
         }
 
@@ -112,18 +112,6 @@ public class WeightActivity2 extends AppCompatActivity {
     public void createNewWeight() {
         dialogBuilder = new AlertDialog.Builder(this);
         final View entryPopupView = getLayoutInflater().inflate(R.layout.popup, null);
-
-        //TODO: remove
-        //newentrypopup_Date = (EditText) entryPopupView.findViewById(R.id.newentrypopup_Date);
-        newpopup_Year = (EditText) entryPopupView.findViewById(R.id.etNewYear);
-        newpopup_Month = (EditText) entryPopupView.findViewById(R.id.etNewMonth);
-        newpopup_Day = (EditText) entryPopupView.findViewById(R.id.etNewDay);
-        newentrypopup_Weight = (EditText) entryPopupView.findViewById(R.id.newentrypopup_Weight);
-        newentrypopup_Intake = (EditText) entryPopupView.findViewById(R.id.newentrypopup_Intake);
-        newentrypopup_Used = (EditText) entryPopupView.findViewById(R.id.newentrypopup_Used);
-
-        newentrypopup_save = (Button) entryPopupView.findViewById(R.id.newentrypopup_Save);
-        newentrypopup_cancel = (Button) entryPopupView.findViewById(R.id.newentrypopup_Cancel);
 
         dialogBuilder.setView(entryPopupView);
         dialog = dialogBuilder.create();

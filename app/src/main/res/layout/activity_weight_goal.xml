@@ -10,37 +10,26 @@
         android:id="@+id/pbProgressBar"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_marginStart="106dp"
-        android:layout_marginTop="265dp"
-        android:layout_marginEnd="106dp"
-        android:layout_marginBottom="266dp"
+        android:layout_marginTop="80dp"
         android:indeterminateOnly="false"
         android:progressDrawable="@drawable/circle"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:progress="75" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="User Weight Goal Progress"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/tvGoalWeight"
         android:layout_width="202dp"
         android:layout_height="42dp"
         android:gravity="center"
+        android:hint="GoalWeight"
         app:layout_constraintBottom_toTopOf="@+id/pbProgressBar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.129" />
 
     <EditText
         android:id="@+id/etEnterGoal"
@@ -53,8 +42,10 @@
         android:maxLength="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pbProgressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/pbProgressBar"
+        app:layout_constraintVertical_bias="0.654" />
 
     <Button
         android:id="@+id/btUpdate"
@@ -73,11 +64,23 @@
         android:id="@+id/tvPercentage"
         android:layout_width="93dp"
         android:layout_height="39dp"
-        android:text="TextView"
         android:gravity="center"
+        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/pbProgressBar"
         app:layout_constraintEnd_toEndOf="@+id/pbProgressBar"
         app:layout_constraintStart_toStartOf="@+id/pbProgressBar"
         app:layout_constraintTop_toTopOf="@+id/pbProgressBar" />
+
+    <TextView
+        android:id="@+id/tvBestWeight"
+        android:layout_width="301dp"
+        android:layout_height="158dp"
+        android:gravity="center"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/etEnterGoal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pbProgressBar"
+        app:layout_constraintVertical_bias="0.534" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
