@@ -26,7 +26,6 @@ public class WeightHistoryAdapter extends RecyclerView.Adapter<WeightHistoryAdap
         public TextView mTextView2;
         public TextView mTextView3;
 
-
         public ExampleViewHolder(View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.imageView2);
