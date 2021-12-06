@@ -24,6 +24,7 @@ public class WeightGoal extends AppCompatActivity {
     private EditText etWeightGoal;
     private Button bUpdate;
     private double goalProgr = 0;
+    private TextView tvBestWeight;
 
     DBHelper DB;
 
@@ -51,6 +52,8 @@ public class WeightGoal extends AppCompatActivity {
         goalComp = GoalPerc(userName, goal);
         goalProgr = goalComp;
         tvProgress.setText(goalProgr + "%");
+
+        weightDifference(userName);
 
         //Goal update listener
         bUpdate.setOnClickListener(new View.OnClickListener() {
@@ -91,12 +94,38 @@ public class WeightGoal extends AppCompatActivity {
         Cursor cursor = db.query(tableGoal, new String[]{target}, null,
                 null, null, null, column + " DESC");
 
-        if (cursor != null && cursor.moveToFirst()){
+        if (cursor != null && cursor.moveToFirst()) {
             goal = cursor.getInt(0);
-        }else {
+            cursor.close();
+        } else {
             goal = 0;
         }
         return goal;
+    }
+
+    //Daily Weight Differences
+    private void weightDifference(String userName) {
+        String tableWeight = "Weight_Table_" + userName;
+        SQLiteDatabase db = DB.getReadableDatabase();
+
+        tvBestWeight = findViewById(R.id.tvBestWeight);
+
+        //Subtract current weight from previous weight to find difference
+        Cursor cursor = db.rawQuery("Select Date, Weight, LAG(Weight, -1, 0) " +
+                "OVER (ORDER BY Date DESC) AS previous_weight," +
+                "Weight-LAG(Weight, -1, 0) OVER (ORDER BY Date DESC) AS difference, " +
+                "(CalorieIntake-CalorieLost)*(-1) AS deficit" +
+                " FROM " +tableWeight+ " ORDER BY difference ASC", null);
+
+        //Cursor to grab the date, weight difference and calorie deficit for best day
+        if (cursor != null && cursor.moveToFirst()){
+            String Test = cursor.getString(3);
+            String Test2 = cursor.getString(0);
+            String Test3 = cursor.getString(4);
+            tvBestWeight.setText("Most Weight lost " + Test + "lbs, on " + Test2 + " with a calorie deficit of " + Test3);
+        }
+        db.close();
+        cursor.close();
     }
 
     //Goal completion based off initial weight, current weight, and current goal
@@ -120,8 +149,9 @@ public class WeightGoal extends AppCompatActivity {
         Cursor cursor1 = db.query(tableWeight, new String[]{target1}, null, null, null,
                 null, column1 + " ASC");
 
-        if (cursor1 != null && cursor1.moveToFirst()){
+        if (cursor1 != null && cursor1.moveToFirst()) {
             firstWeight = cursor1.getInt(0);
+            cursor1.close();
         }
 
         //Grab current goal weight
@@ -129,23 +159,25 @@ public class WeightGoal extends AppCompatActivity {
                 null, column1 + " DESC");
         if (cursor2 != null && cursor2.moveToFirst()) {
             currGoal = cursor2.getInt(0);
+            cursor2.close();
         }
 
         //Grab current weight
         Cursor cursor3 = db.query(tableWeight, new String[]{target1}, null, null, null,
                 null, column1 + "  DESC");
-        if (cursor3 != null && cursor3.moveToFirst()){
+        if (cursor3 != null && cursor3.moveToFirst()) {
             currWeight = cursor3.getInt(0);
+            cursor3.close();
         }
 
         goalDiffDenom = (firstWeight - goal);
         goalDiffNum = (firstWeight - currWeight);
         goalCompPerc = (int) ((goalDiffNum / goalDiffDenom) * 100);
 
-        if (goalDiffNum <= 0){
+        if (goalDiffNum <= 0) {
             Toast.makeText(WeightGoal.this, "Invalid Goal", Toast.LENGTH_SHORT).show();
         }
         System.out.println("Current percentage " + goalDiffNum + " " + goalDiffDenom + " " + goalCompPerc);
-        return (int) goalCompPerc;
+        return goalCompPerc;
     }
 }
