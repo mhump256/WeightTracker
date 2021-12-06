@@ -9,7 +9,6 @@ public class EncryptDecrypt {
     //Set encryption/decryption value
     private static final byte[] keyValue =
             new byte[] {'t','e','s','t','i','n','g','t','h','i','s','s','t','u','f','f'};
-            //new byte[]{'c','s','4','9','9'};
 
     public static String encrypt(String clearText)
         throws Exception {

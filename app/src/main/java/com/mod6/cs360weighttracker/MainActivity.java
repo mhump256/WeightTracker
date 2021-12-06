@@ -180,12 +180,5 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return false;
         }
-        /*Boolean checkUser = DB.checkUsernamePassword(name, password);
-        if (checkUser) {
-            DB.close();
-            return true;
-        }
-        else
-            return false;*/
     }
 }
